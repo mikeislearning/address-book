@@ -1,6 +1,6 @@
 # Address Book Mobile App
 
-This app allows you to view a list of users, as well as their details
+This app allows you to view a list of people, as well as their details
 
 # To use this project
 
