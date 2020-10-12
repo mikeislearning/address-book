@@ -5,7 +5,7 @@ This app allows you to view a list of users, as well as their details
 # To use this project
 
 ```
-git clone https://github.com/mikeislearning/bungalow
+git clone https://github.com/mikeislearning/AddressBook
 cd AddressBook
 npm install
 npm start
