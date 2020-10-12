@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
-import { Text, ScrollView } from 'react-native';
+import { Image, Text, ScrollView, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 
 import { RootStackParamList } from 'src/navigation/NavContainer';
 import { RootRoutes } from 'src/navigation/routes';
@@ -8,25 +9,30 @@ import { RootRoutes } from 'src/navigation/routes';
 import styles from './Person.styles';
 
 /**
- * Home Screen
+ * Person Screen
  *
- * Show a list of addresses
+ * Show a single contact
  */
 
-type ProfileNavProp = StackNavigationProp<RootStackParamList, RootRoutes.HOME>;
+type PersonNavProp = StackNavigationProp<RootStackParamList, RootRoutes.PERSON>;
+type PersonRouteProp = RouteProp<RootStackParamList, RootRoutes.PERSON>;
 
 interface HomeProps {
-  navigation: ProfileNavProp;
+  navigation: PersonNavProp;
+  route: PersonRouteProp;
 }
 
-const Person: FC<HomeProps> = () => {
-  /* 1. Get/Set User
-   *
-   * - makes two single time calls to determine what user to display
-   */
+const Person: FC<HomeProps> = ({ route }) => {
+  const { contact } = route.params;
+
   return (
     <ScrollView contentContainerStyle={styles.scroll}>
-      <Text>Person screen</Text>
+      <View style={styles.imageContainer}>
+        <Image style={styles.image} source={{ uri: contact.picture.medium }} />
+        <Text style={styles.name}>
+          {contact.name.first} {contact.name.last}
+        </Text>
+      </View>
     </ScrollView>
   );
 };

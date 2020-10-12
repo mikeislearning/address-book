@@ -1,11 +1,20 @@
-import React, { FC, useEffect } from 'react';
-import { Text, TouchableOpacity, ScrollView } from 'react-native';
+import React, { FC, useEffect, useState } from 'react';
+import {
+  FlatList,
+  ListRenderItemInfo,
+  TextInput,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { RootStackParamList } from 'src/navigation/NavContainer';
 import { RootRoutes } from 'src/navigation/routes';
 
 import { Loading } from 'src/components/Loading';
+
+import { Contact } from 'src/types';
 
 // import { logger } from 'src/utils/logger';
 
@@ -14,41 +23,70 @@ import styles from './Home.styles';
 /**
  * Home Screen
  *
- * 1. Have a lazy query checking if the user exists
- * 2. Show the user a bunch of buttons
  */
 
-type ProfileNavProp = StackNavigationProp<RootStackParamList, RootRoutes.HOME>;
+type HomeNavProp = StackNavigationProp<RootStackParamList, RootRoutes.HOME>;
 
 interface HomeProps {
-  error: Error;
   loading: boolean;
-  data: any;
-  navigation: ProfileNavProp;
+  data: Contact[];
+  navigation: HomeNavProp;
   listContacts: any;
 }
 
-const Home: FC<HomeProps> = ({
-  error,
-  loading,
-  data,
-  listContacts,
-  navigation,
-}) => {
+const Home: FC<HomeProps> = ({ loading, data, listContacts, navigation }) => {
   useEffect(() => {
     listContacts();
     // eslint-disable-next-line
   }, []);
 
-  if (loading) return <Loading />;
+  const [currentFilter, setFilter] = useState('');
+
+  const filteredData = data.filter(
+    (contact: Contact) =>
+      contact.name.first.includes(currentFilter) ||
+      contact.name.last.includes(currentFilter)
+  );
+
+  const renderContact = (info: ListRenderItemInfo<Contact>) => {
+    const contact = info.item;
+
+    return (
+      <TouchableOpacity
+        onPress={() => navigation.navigate(RootRoutes.PERSON, { contact })}
+        style={styles.contact}
+      >
+        <Text style={styles.first}>{contact.name.first} </Text>
+        <Text style={styles.last}>{contact.name.last}</Text>
+      </TouchableOpacity>
+    );
+  };
 
   return (
-    <ScrollView contentContainerStyle={styles.scroll}>
-      <Text>Home screen</Text>
-      <TouchableOpacity onPress={() => navigation.navigate(RootRoutes.PERSON)}>
-        <Text>Go to person screen</Text>
-      </TouchableOpacity>
-    </ScrollView>
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <TextInput
+            style={styles.input}
+            placeholder="Search"
+            onChangeText={(text: string) => setFilter(text)}
+          />
+          <FlatList
+            style={styles.list}
+            renderItem={renderContact}
+            data={filteredData}
+            ListEmptyComponent={
+              <View>
+                <Text>No contacts found</Text>
+              </View>
+            }
+            keyExtractor={(item): string => `${item.email}`}
+          />
+        </>
+      )}
+    </>
   );
 };
 

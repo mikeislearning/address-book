@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { Home } from 'src/screens/Home';
 import { Person } from 'src/screens/Person';
+import { Contact } from 'src/types';
 
 import { RootRoutes } from './routes';
 
@@ -14,7 +15,7 @@ import { RootRoutes } from './routes';
 
 export type RootStackParamList = {
   [RootRoutes.HOME]: undefined;
-  [RootRoutes.PERSON]: undefined;
+  [RootRoutes.PERSON]: { contact: Contact };
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();

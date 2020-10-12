@@ -1,17 +1,11 @@
-/*
- * @format
- */
-
 import {
   LIST_CONTACTS_SUCCESS,
   LIST_CONTACTS_ERROR,
   LIST_CONTACTS_LOADING,
 } from '../actionTypes';
 
-// import { PropertiesAction } from '../types';
-
 const initialState = {
-  data: {},
+  data: [],
   error: null,
   loading: false,
 };

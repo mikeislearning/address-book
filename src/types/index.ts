@@ -1,12 +1,25 @@
+interface NameInterface {
+  title: string;
+  first: string;
+  last: string;
+}
+
+interface LoginInterface {
+  uuid: string;
+  username: string;
+}
+
+interface PictureInterface {
+  large: string;
+  medium: string;
+  thumbnail: string;
+}
+
 export interface Contact {
-  address: object;
-  available_room_count: number;
-  description_html: string;
-  headline: string;
-  num_bathrooms: string;
-  room_prices: Array<number>;
-  total_room_count: number;
-  slug: string;
+  name: NameInterface;
+  email: string;
+  login: LoginInterface;
+  picture: PictureInterface;
 }
 
 export interface ContactsAction {

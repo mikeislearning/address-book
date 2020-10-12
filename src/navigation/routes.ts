@@ -1,4 +1,4 @@
 export enum RootRoutes {
-  HOME = 'Home',
+  HOME = 'Contacts',
   PERSON = 'Person',
 }
